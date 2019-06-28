@@ -109,6 +109,44 @@ function BinarySearchTree(){
   this.search = function(key){
     return searchNode(root, key);
   }
+  // 移除一个节点
+  var findMinNode = function(node){
+    while(node && node.left !== null){
+      node = node.left;
+    }
+    return node;
+  }
+  var removeNode = function(node, key){
+    if(node === null){
+      return null;
+    }
+    if(key < node.key){
+      node.left = removeNode(node.left, key);
+      return node;
+    } else if(key > node.key){
+      node.right = removeNode(node.right, key);
+      return node;
+    } else {
+      if(node.left === null && node.right === null){
+        node = null;
+        return node;
+      }
+      if(node.left === null){
+        node = node.right;
+        return node;
+      } else if(node.right === null){
+        node = node.left;
+        return node;
+      }
+      var aux = findMinNode(node.right);
+      node.key = aux.key;
+      node.right = removeNode(node.right, aux.key);
+      return node;
+    }
+  }
+  this.remove = function(key){
+    root = removeNode(root, key);
+  }
 }
 
 
@@ -131,3 +169,6 @@ console.log("min:" + tree.min());
 console.log("max:" + tree.max());
 console.log("search(33)" + tree.search(33));
 console.log("search(3)" + tree.search(3));
+tree.print();
+tree.remove(44);
+tree.print();
