@@ -1,9 +1,3 @@
-/**
- * 链表特性
- * 前一个节点存在指向后一个节点的指针
- * 尾节点的后一个指针为null
- */
-
 
 function LinkedList(){
   var Node = function (elem){
@@ -13,36 +7,57 @@ function LinkedList(){
   var head = null;
   var length = 0;
 
+  function getTailNode(node){
+    while(node.next && node.next !== head){
+        node = node.next;
+    }
+    return node;
+  }
+
+  function getNodeAt(position, node){
+      var index = 0, previous;
+      while(index++ < position){
+          previous = node;
+          node = node.next;
+      }
+      return {
+          current: node,
+          prev: previous
+      }
+  }
   this.append = function(elem){
     var node = new Node(elem), current;
     if(head === null){
       head = node;
     } else {
-      current = head;
-      while(current.next){
-        current = current.next;
-      }
-      current.next = node;
+      var tail = getTailNode(head);
+      tail.next = node;
+    }
+    length++;
+  }
+  this.unshift = function(elem){
+    var node = new Node(elem), current;
+    if(head === null){
+      head = node;
+    } else {
+      node.next = head;
+      head = node;
     }
     length++;
   }
   this.insert = function(position, elem){
     if(position >= 0 && position <= length){
-      let node = new Node(elem),
-      head = current,
-      previous,
-      index = 0;
-
+      var node = new Node(elem);
+      var index = 0, current =head;
       if(position === 0){
-        node.next = head;
-        head = node;
+        this.unshift(elem);
       } else {
         while(index++ < position){
           previous = current;
           current = current.next;
         }
-        node.next = current;
         previous.next = node;
+        node.next = current;
       }
       length++;
       return true;
@@ -103,6 +118,9 @@ link.append('33');
 link.append('33');
 link.append('33');
 link.append('33');
-link.insert(2, '44');
+link.unshift('unshift');
+link.insert(2, 'insert');
+link.remove('insert')
+link.removeAt(0);
 link.size();
 link.toString();
