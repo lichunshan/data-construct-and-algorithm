@@ -77,7 +77,7 @@ function BinarySearchTree(){
     }
     return null;
   }
-  this.min = function(node, key){
+  this.min = function(){
       return minNode(root);
   }
   // 查询最大值
@@ -122,10 +122,8 @@ function BinarySearchTree(){
     }
     if(key < node.key){
       node.left = removeNode(node.left, key);
-      return node;
     } else if(key > node.key){
       node.right = removeNode(node.right, key);
-      return node;
     } else {
       if(node.left === null && node.right === null){
         node = null;
